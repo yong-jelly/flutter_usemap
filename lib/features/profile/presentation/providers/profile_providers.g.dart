@@ -119,5 +119,25 @@ final uploadProfileImageUseCaseProvider =
 // ignore: unused_element
 typedef UploadProfileImageUseCaseRef =
     AutoDisposeProviderRef<UploadProfileImageUseCase>;
+String _$getMyBookmarkedPlacesUseCaseHash() =>
+    r'8c2b1f87d1c8f6e4a27f7b4b8d0b1af8d4d0b3a1';
+
+/// See also [getMyBookmarkedPlacesUseCase].
+@ProviderFor(getMyBookmarkedPlacesUseCase)
+final getMyBookmarkedPlacesUseCaseProvider =
+    AutoDisposeProvider<GetMyBookmarkedPlacesUseCase>.internal(
+      getMyBookmarkedPlacesUseCase,
+      name: r'getMyBookmarkedPlacesUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$getMyBookmarkedPlacesUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetMyBookmarkedPlacesUseCaseRef =
+    AutoDisposeProviderRef<GetMyBookmarkedPlacesUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

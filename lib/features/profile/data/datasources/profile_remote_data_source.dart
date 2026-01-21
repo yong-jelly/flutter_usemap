@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../auth/data/models/user_profile_model.dart';
+import '../models/bookmarked_place_model.dart';
 
 /// 프로필 관련 원격 데이터 소스
 class ProfileRemoteDataSource {
@@ -15,9 +16,11 @@ class ProfileRemoteDataSource {
         params: {'p_auth_user_id': authUserId},
       );
       
-      if (response == null || (response as List).isEmpty) return null;
-      
-      final data = (response as List).first as Map<String, dynamic>;
+      if (response == null) return null;
+      final list = response as List;
+      if (list.isEmpty) return null;
+
+      final data = list.first as Map<String, dynamic>;
       return UserProfileModel.fromJson(data);
     } catch (e) {
       return null;
@@ -40,11 +43,36 @@ class ProfileRemoteDataSource {
       },
     );
 
-    if (response == null || (response as List).isEmpty) {
+    if (response == null) {
+      throw const PostgrestException(message: '프로필 업데이트 실패');
+    }
+    final list = response as List;
+    if (list.isEmpty) {
       throw const PostgrestException(message: '프로필 업데이트 실패');
     }
 
-    final data = (response as List).first as Map<String, dynamic>;
+    final data = list.first as Map<String, dynamic>;
     return UserProfileModel.fromJson(data);
+  }
+
+  /// 내가 저장(북마크)한 장소 목록 조회
+  Future<List<BookmarkedPlaceModel>> getMyBookmarkedPlaces({
+    int limit = 20,
+    int offset = 0,
+  }) async {
+    final response = await _supabase.rpc(
+      'v2_get_my_bookmarked_places',
+      params: {
+        'p_limit': limit,
+        'p_offset': offset,
+      },
+    );
+
+    if (response == null) return [];
+    final list = response as List;
+    return list
+        .whereType<Map>()
+        .map((item) => BookmarkedPlaceModel.fromJson(item.cast<String, dynamic>()))
+        .toList();
   }
 }

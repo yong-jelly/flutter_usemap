@@ -5,6 +5,7 @@ import '../../data/datasources/storage_data_source.dart';
 import '../../data/repositories/profile_repository_impl.dart';
 import '../../domain/repositories/profile_repository.dart';
 import '../../domain/usecases/get_profile_use_case.dart';
+import '../../domain/usecases/get_my_bookmarked_places_use_case.dart';
 import '../../domain/usecases/upload_profile_image_use_case.dart';
 import '../../domain/usecases/upsert_profile_use_case.dart';
 
@@ -45,4 +46,10 @@ UpsertProfileUseCase upsertProfileUseCase(UpsertProfileUseCaseRef ref) {
 UploadProfileImageUseCase uploadProfileImageUseCase(UploadProfileImageUseCaseRef ref) {
   final repository = ref.watch(profileRepositoryProvider);
   return UploadProfileImageUseCase(repository);
+}
+
+@riverpod
+GetMyBookmarkedPlacesUseCase getMyBookmarkedPlacesUseCase(GetMyBookmarkedPlacesUseCaseRef ref) {
+  final repository = ref.watch(profileRepositoryProvider);
+  return GetMyBookmarkedPlacesUseCase(repository);
 }

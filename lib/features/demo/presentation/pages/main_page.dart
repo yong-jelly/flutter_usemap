@@ -1,55 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_usemap/features/demo/presentation/widgets/demo_list_tab.dart';
-import 'package:flutter_usemap/features/demo/presentation/widgets/demo_form_tab.dart';
+import 'package:flutter_usemap/features/feed/presentation/pages/feed_page.dart';
+import 'package:flutter_usemap/features/folder/presentation/pages/folder_page.dart';
+import 'package:flutter_usemap/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:flutter_usemap/features/profile/presentation/widgets/profile_tab.dart';
 
 /// 메인 화면
-/// 
-/// 3개의 탭을 가진 화면으로, 탭 1은 리스트, 탭 2는 폼, 탭 3은 프로필을 표시한다.
-class MainPage extends ConsumerStatefulWidget {
+///
+/// 하단 네비게이션으로 피드/폴더/알림/프로필을 제공한다.
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
   @override
-  ConsumerState<MainPage> createState() => _MainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends ConsumerState<MainPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  static const _pages = [
+    FeedPage(),
+    FolderPage(),
+    NotificationsPage(),
+    ProfileTab(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('UseMap'),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: '리스트', icon: Icon(Icons.list)),
-            Tab(text: '폼', icon: Icon(Icons.edit)),
-            Tab(text: '프로필', icon: Icon(Icons.person)),
-          ],
-        ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          const DemoListTab(),
-          const DemoFormTab(),
-          const ProfileTab(),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _selectedIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.dynamic_feed_outlined),
+            selectedIcon: Icon(Icons.dynamic_feed),
+            label: '피드',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.folder_outlined),
+            selectedIcon: Icon(Icons.folder),
+            label: '폴더',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.notifications_none),
+            selectedIcon: Icon(Icons.notifications),
+            label: '알림',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: '프로필',
+          ),
         ],
       ),
     );

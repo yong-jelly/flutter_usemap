@@ -4,6 +4,7 @@ import '../features/demo/presentation/pages/main_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/auth_callback_page.dart';
 import '../features/profile/presentation/pages/profile_edit_page.dart';
+import '../features/profile/presentation/pages/profile_saved_page.dart';
 
 /// 라우트 경로 정의
 class AppRoutes {
@@ -12,6 +13,7 @@ class AppRoutes {
   static const String login = '/auth/login';
   static const String authCallback = '/auth/callback';
   static const String profileEdit = '/profile/edit';
+  static const String profileSaved = '/profile/saved';
 }
 
 /// 앱 라우터 설정
@@ -42,6 +44,11 @@ final appRouter = GoRouter(
       path: AppRoutes.profileEdit,
       name: 'profile_edit',
       builder: (context, state) => const ProfileEditPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.profileSaved,
+      name: 'profile_saved',
+      builder: (context, state) => const ProfileSavedPage(),
     ),
   ],
 );
