@@ -1,4 +1,4 @@
-# Flutter Todo App - CLI Commands
+# Flutter Demo App - CLI Commands
 
 ## 개발 및 실행 명령어
 
@@ -25,8 +25,26 @@ flutter pub get
 # 패키지 업그레이드
 flutter pub upgrade
 
+# 사용 가능한 업그레이드 확인
+flutter pub outdated
+
 # 캐시 클리어
 flutter clean
+```
+
+### 코드 생성 (Code Generation)
+```bash
+# 모든 코드 생성 (Riverpod, JSON, Drift 등)
+flutter pub run build_runner build --delete-conflicting-outputs
+
+# Watch 모드로 코드 자동 생성 (개발 중 권장)
+flutter pub run build_runner watch --delete-conflicting-outputs
+
+# 코드 생성만 (충돌 파일 삭제 없이)
+flutter pub run build_runner build
+
+# 특정 파일만 코드 생성
+flutter pub run build_runner build --build-filter="lib/features/demo/**"
 ```
 
 ## 빌드 명령어
@@ -77,8 +95,14 @@ flutter devices
 # 코드 정적 분석
 flutter analyze
 
+# 경고만 표시 (정보 제외)
+flutter analyze --no-fatal-infos
+
 # 테스트 실행
 flutter test
+
+# 테스트 커버리지 확인
+flutter test --coverage
 ```
 
 ### 에뮬레이터 관리
@@ -96,16 +120,62 @@ flutter emulators --launch <emulator_id>
 flutter logs
 ```
 
+## Supabase 관련 명령어
+
+### Supabase CLI (설치된 경우)
+```bash
+# Supabase 로컬 개발 서버 시작
+supabase start
+
+# Supabase 로컬 개발 서버 중지
+supabase stop
+
+# 마이그레이션 실행
+supabase db reset
+
+# SQL 파일 실행
+psql "postgresql://postgres.xyqpggpilgcdsawuvpzn:ZNDqDunnaydr0aFQ@aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres" -f docs/sql/[파일명].sql
+
+# 직접 쿼리 실행
+psql "postgresql://postgres.xyqpggpilgcdsawuvpzn:ZNDqDunnaydr0aFQ@aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres" -c "SELECT * FROM demo_table;"
+```
+
 ## 자주 사용하는 조합 명령어
 
-### 전체 클린 후 재설치
+### 전체 클린 후 재설치 및 실행
 ```bash
 flutter clean && flutter pub get && flutter run
 ```
 
+### 코드 생성 후 실행
+```bash
+flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs && flutter run
+```
+
 ### 릴리즈 빌드 전 준비
 ```bash
-flutter clean && flutter pub get && flutter build apk --release
+flutter clean && flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs && flutter build apk --release
+```
+
+### 개발 시작 (권장 순서)
+```bash
+# 1. 의존성 설치
+flutter pub get
+
+# 2. 코드 생성
+flutter pub run build_runner build --delete-conflicting-outputs
+
+# 3. 앱 실행
+flutter run
+```
+
+### Watch 모드로 개발 (코드 생성 자동화)
+```bash
+# 터미널 1: 코드 생성 watch 모드
+flutter pub run build_runner watch --delete-conflicting-outputs
+
+# 터미널 2: 앱 실행
+flutter run
 ```
 
 ## 플랫폼별 실행
@@ -124,4 +194,85 @@ flutter run -d ios
 ```bash
 flutter run -d chrome
 flutter run -d web-server
+```
+
+### macOS 전용
+```bash
+flutter run -d macos
+```
+
+### Linux 전용
+```bash
+flutter run -d linux
+```
+
+### Windows 전용
+```bash
+flutter run -d windows
+```
+
+## 프로젝트 특화 명령어
+
+### Drift 데이터베이스 관련
+```bash
+# Drift 코드 재생성
+flutter pub run build_runner build --delete-conflicting-outputs
+
+# 데이터베이스 파일 위치 확인 (macOS)
+ls ~/Library/Application\ Support/com.example.flutter_usemap/db.sqlite
+```
+
+### Riverpod 코드 생성
+```bash
+# Riverpod Provider 코드만 생성
+flutter pub run build_runner build --delete-conflicting-outputs lib/**/*.dart
+```
+
+### JSON 직렬화 코드 생성
+```bash
+# JSON Model 코드만 생성
+flutter pub run build_runner build --delete-conflicting-outputs lib/**/*_model.dart
+```
+
+## 문제 해결 명령어
+
+### 빌드 캐시 완전 삭제
+```bash
+flutter clean
+rm -rf .dart_tool
+rm -rf build
+flutter pub get
+```
+
+### 코드 생성 캐시 삭제
+```bash
+flutter pub run build_runner clean
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+### iOS Pod 재설치
+```bash
+cd ios
+rm -rf Pods Podfile.lock
+pod install
+cd ..
+```
+
+### Android Gradle 클린
+```bash
+cd android
+./gradlew clean
+cd ..
+```
+
+## 유용한 단축 명령어 (선택사항)
+
+`.zshrc` 또는 `.bashrc`에 추가하면 편리합니다:
+
+```bash
+# Flutter Demo App 단축 명령어
+alias fd-run="flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs && flutter run"
+alias fd-build="flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs && flutter build"
+alias fd-clean="flutter clean && rm -rf .dart_tool build && flutter pub get"
+alias fd-watch="flutter pub run build_runner watch --delete-conflicting-outputs"
 ```
