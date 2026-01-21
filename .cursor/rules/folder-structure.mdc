@@ -1,0 +1,69 @@
+---
+description: "폴더 구조 규칙 - Feature-first 구조와 파일 배치 가이드"
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# 최상위 폴더 구조
+
+- lib/
+  - app/
+    - bootstrap.dart           # 앱 초기화(환경설정, Supabase init, ProviderScope 설정 진입점)
+    - app.dart                 # MaterialApp / Router 설정
+  - router/
+    - app_router.dart          # go_router 루트, Route name/path 정의
+  - core/
+    - di/                      # 전역 Provider(클라이언트, 스토리지, config 등)
+    - network/                 # dio 세팅, 인터셉터, 에러 변환
+    - offline/                 # connectivity, offline 큐, 재시도 로직
+    - storage/                 # Drift DB, SecureStorage 어댑터
+    - location/                # 위치 관련 Repository / UseCase(ex: Geolocator 래퍼)
+    - ui/                      # 공통 위젯, 테마, 디자인 토큰
+    - utils/                   # 로거, 포맷터, 공통 helper
+  - features/
+    - <feature_name>/
+      - domain/
+        - entities/
+        - value_objects/
+        - repositories/
+        - usecases/
+      - data/
+        - models/              # DTO/Model
+        - datasources/         # remote/local datasource
+        - repositories/        # repository 구현
+      - presentation/
+        - pages/
+        - widgets/
+        - controllers/         # Notifier/AsyncNotifier 등
+        - providers/           # provider 정의(@riverpod 애너테이션 포함)
+
+# feature 폴더 네이밍
+
+- snake_case 사용
+  - 예) auth, profile, home_feed, onboarding, settings, notifications 등
+- feature 이름은 도메인/비즈니스 단위로 명확하게 구분한다.
+
+# core 하위 폴더 설명
+
+- core/di/
+  - app_providers.dart        # 앱 전체에서 사용하는 Provider (ex: dioProvider, supabaseClientProvider)
+  - env_providers.dart        # 환경변수/플래그용 Provider
+- core/network/
+  - http_client.dart          # dio 클라이언트 생성/설정
+  - interceptors.dart         # 공통 인터셉터 (로그, 토큰, 재시도 등)
+  - api_exception.dart        # 네트워크/도메인 에러 타입 정의
+- core/storage/
+  - drift_database.dart       # Drift Database 정의
+  - drift_daos.dart           # 공통 DAO
+  - secure_storage.dart       # flutter_secure_storage 래퍼
+- core/offline/
+  - connectivity_service.dart # connectivity_plus 사용 래퍼
+  - offline_queue.dart        # outbox 큐 구현
+  - offline_sync_worker.dart # 온라인 복구 시 큐 flush 로직
+- core/location/
+  - location_service.dart     # geolocator 래퍼
+- core/ui/
+  - app_theme.dart            # ThemeData
+  - app_colors.dart           # 색상 팔레트
+  - app_typography.dart       # 텍스트 스타일
+  - widgets/                  # 공통 위젯(버튼, 로딩, 다이얼로그 등)

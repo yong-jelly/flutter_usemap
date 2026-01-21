@@ -1,0 +1,39 @@
+---
+description: "전체 아키텍처 개요 - 서비스형 Flutter 앱의 Feature-first + Clean Architecture(DDD-lite) + Riverpod 3.x 설계 원칙"
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# 아키텍처 개요
+
+- 앱 타입: 서비스형 앱(기능이 지속적으로 추가되고 유지되는 형태)
+- 아키텍처: Feature-first + Clean Architecture(DDD-lite) 하이브리드
+- 상태 관리: 전역/로컬/서버 상태를 모두 Riverpod 3.x로 통일
+- 비동기: AsyncValue + AsyncNotifier 중심 설계
+- 네트워크: dio 또는 Supabase client를 Repository 레이어 뒤에 숨김
+- 로컬 저장소: drift(리치 데이터/오프라인 큐), flutter_secure_storage(토큰/민감정보)
+- 오프라인: connectivity_plus + drift 기반 outbox 패턴
+- 인증: supabase_flutter + Supabase Google 로그인
+
+## 계층 구조(논리)
+
+1) presentation
+   - Flutter UI (Widget / Page)
+   - Riverpod Notifier/AsyncNotifier (Controller 역할)
+   - UI에서 비즈니스 규칙을 직접 구현하지 않는다.
+2) domain
+   - Entity / Value Object / UseCase / Repository 인터페이스
+   - UI/Infra에 의존하지 않는 순수 Dart 코드
+3) data
+   - DTO / 데이터 소스(remote/local) / Repository 구현체
+   - dio/Supabase/Drift 등 외부 의존성을 모두 여기서 감싼다.
+4) core
+   - DI(Provider), 공통 유틸, 네트워크 설정, 오프라인 처리, 스토리지 등 cross-cutting concern
+
+## 의존성 방향
+
+- presentation → domain(UseCase / Entity / Repository 인터페이스)
+- domain → (어떤 레이어에도 의존하지 않음)
+- data → domain(Repository 인터페이스 구현)
+- core → 어떤 feature에도 의존하지 않음
+- feature끼리 직접 의존하지 말고, 필요한 경우 core 또는 공유 feature의 public API(UseCase/Provider)를 통해 의존한다.

@@ -1,0 +1,73 @@
+---
+description: "패키지 선택 및 사용 규칙 - 핵심 패키지 목록과 사용 방향"
+globs: ["lib/**/*.dart", "pubspec.yaml"]
+alwaysApply: true
+---
+
+# 핵심 패키지 목록 및 사용 방향
+
+## 상태관리/DI
+
+- flutter_riverpod
+- riverpod_annotation
+- riverpod_generator
+- build_runner
+
+사용 원칙:
+- 모든 상태는 Riverpod Provider/Notifier를 통해 전달된다.
+- 전역 싱글톤을 직접 생성하지 않는다(Provider로 주입).
+
+## 네트워크 / Supabase / 인증
+
+- dio (선택 시)
+  - 공통 http 클라이언트는 core/network/http_client.dart에서 생성/설정한다.
+  - 인터셉터(로그, 인증, 재시도)는 별도 파일로 분리해 주입한다.
+- supabase_flutter
+  - SupabaseClient는 core/di/app_providers.dart에서 Provider로 주입한다.
+  - Auth(이메일, Google 로그인)는 domain/usecase를 통해 호출한다.
+- Supabase Google 로그인
+  - Supabase 공식 문서의 Google Social Login 플로우를 따른다.
+
+## 로컬 저장소
+
+- drift
+  - 데이터 캐시, 오프라인 큐, 복잡한 로컬 모델이 필요한 부분에 사용한다.
+  - DB 정의는 core/storage/drift_database.dart
+- flutter_secure_storage
+  - 토큰/리프레시 토큰/민감한 정보 저장용.
+  - core/storage/secure_storage.dart에서 래핑.
+
+## 오프라인/네트워크 상태
+
+- connectivity_plus
+  - 네트워크 상태 변화를 listen해서 offline/online 전환 이벤트를 감지한다.
+  - core/offline/connectivity_service.dart에 래퍼를 구현한다.
+
+- offline 패턴:
+  - 쓰기 요청:
+    1) 온라인이면 즉시 전송 + 실패 시 재시도 정책
+    2) 오프라인이면 drift 기반 큐에 저장
+  - 온라인 복귀:
+    - offline_sync_worker가 큐를 flush
+  - 이 로직은 core/offline/ 폴더에 구현한다.
+
+## 위치 정보
+
+- geolocator
+  - 현재 위치, 지속적인 위치 추적을 제공한다.
+  - core/location/location_service.dart에서 Flutter API를 래핑하고,
+    domain 레이어에서는 LocationRepository 인터페이스를 통해 사용한다.
+
+## 이미지 로딩 / 리스트
+
+- cached_network_image
+  - 네트워크 이미지 lazy 로드 + 캐싱.
+  - 이미지 위젯은 features 또는 core/ui/widgets에서 래핑해서 사용한다.
+- 리스트:
+  - 기본은 Flutter Sliver(ListView.builder, CustomScrollView 등)를 우선 사용.
+  - 페이지네이션/무한스크롤은 별도 helper/Widget으로 통일.
+
+## 애니메이션/모션
+
+- 가벼운 애니메이션은 Flutter 기본 AnimationController/Implicit Animations 사용.
+- 공통 모션 패턴(페이지 전환, 페이드, 슬라이드 등)은 core/ui/ 또는 app_router에서 일관되게 정의.

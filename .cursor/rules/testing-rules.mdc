@@ -1,0 +1,78 @@
+---
+description: "테스트 규칙 - 단위/위젯/통합 테스트 가이드"
+globs: ["test/**/*.dart", "lib/**/*.dart"]
+alwaysApply: false
+---
+
+# 테스트 규칙
+
+## 테스트 구조
+
+- test/unit/: 도메인 로직, UseCase, Repository 구현체 테스트
+- test/widget/: 위젯 테스트
+- test/integration/: 통합 테스트(선택적)
+
+## 테스트 원칙
+
+- Domain 레이어는 순수 Dart이므로 mock 없이 테스트 가능하다.
+- Data 레이어는 mock을 사용하여 네트워크/로컬 저장소를 대체한다.
+- Presentation 레이어는 Riverpod의 ProviderContainer를 사용하여 테스트한다.
+
+## UseCase 테스트
+
+- UseCase는 Repository 인터페이스를 mock하여 테스트한다.
+- 성공/실패 케이스를 모두 테스트한다.
+
+예시:
+```dart
+test('LoginUseCase - 성공', () async {
+  final mockRepo = MockAuthRepository();
+  when(() => mockRepo.login(any(), any())).thenAnswer((_) async => user);
+  
+  final useCase = LoginUseCase(mockRepo);
+  final result = await useCase.execute(email, password);
+  
+  expect(result, equals(user));
+});
+```
+
+## Controller 테스트
+
+- ProviderContainer를 사용하여 Controller를 테스트한다.
+- 상태 변화와 메서드 호출을 검증한다.
+
+예시:
+```dart
+test('LoginController - submit 성공', () async {
+  final container = ProviderContainer();
+  final controller = container.read(loginControllerProvider.notifier);
+  
+  await controller.submit(email, password);
+  
+  expect(
+    container.read(loginControllerProvider),
+    isA<AsyncData>().having((s) => s.value, 'value', isNotNull),
+  );
+});
+```
+
+## 위젯 테스트
+
+- 위젯 테스트는 사용자 상호작용과 렌더링을 검증한다.
+- ProviderScope로 감싸서 테스트한다.
+
+예시:
+```dart
+testWidgets('LoginPage - 제출 버튼 클릭', (tester) async {
+  await tester.pumpWidget(
+    ProviderScope(
+      child: MaterialApp(home: LoginPage()),
+    ),
+  );
+  
+  await tester.tap(find.text('로그인'));
+  await tester.pumpAndSettle();
+  
+  expect(find.text('홈'), findsOneWidget);
+});
+```

@@ -1,0 +1,127 @@
+# Flutter Todo App - CLI Commands
+
+## 개발 및 실행 명령어
+
+### 앱 실행
+```bash
+# 기본 실행 (자동 플랫폼 감지)
+flutter run
+
+# 디버그 모드로 실행
+flutter run --debug
+
+# 릴리즈 모드로 실행
+flutter run --release
+
+# 프로필 모드로 실행 (성능 분석용)
+flutter run --profile
+```
+
+### 의존성 관리
+```bash
+# 패키지 설치
+flutter pub get
+
+# 패키지 업그레이드
+flutter pub upgrade
+
+# 캐시 클리어
+flutter clean
+```
+
+## 빌드 명령어
+
+### Android 빌드
+```bash
+# APK 빌드
+flutter build apk
+
+# App Bundle 빌드 (Google Play 추천)
+flutter build aab
+
+# APK 설치
+flutter install
+```
+
+### iOS 빌드
+```bash
+# iOS 앱 빌드
+flutter build ios
+```
+
+### 웹 빌드
+```bash
+# 웹 앱 빌드
+flutter build web
+```
+
+### macOS 빌드
+```bash
+# macOS 앱 빌드
+flutter build macos
+```
+
+## 디버깅 및 분석
+
+### 환경 확인
+```bash
+# Flutter 설치 상태 확인
+flutter doctor
+
+# 연결된 디바이스 목록
+flutter devices
+```
+
+### 코드 분석
+```bash
+# 코드 정적 분석
+flutter analyze
+
+# 테스트 실행
+flutter test
+```
+
+### 에뮬레이터 관리
+```bash
+# 사용 가능한 에뮬레이터 목록
+flutter emulators
+
+# 특정 에뮬레이터 실행
+flutter emulators --launch <emulator_id>
+```
+
+### 로그 확인
+```bash
+# 실행 중인 앱 로그 보기
+flutter logs
+```
+
+## 자주 사용하는 조합 명령어
+
+### 전체 클린 후 재설치
+```bash
+flutter clean && flutter pub get && flutter run
+```
+
+### 릴리즈 빌드 전 준비
+```bash
+flutter clean && flutter pub get && flutter build apk --release
+```
+
+## 플랫폼별 실행
+
+### Android 전용
+```bash
+flutter run -d android
+```
+
+### iOS 전용
+```bash
+flutter run -d ios
+```
+
+### 웹 전용
+```bash
+flutter run -d chrome
+flutter run -d web-server
+```

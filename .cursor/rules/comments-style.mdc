@@ -1,0 +1,33 @@
+---
+description: "주석/문서화 규칙 - 코드 문서화 스타일 가이드"
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# 주석/문서화 규칙
+
+## 기본 원칙
+
+- "왜"를 설명하는 주석을 우선한다. "뭐"를 하는지는 코드로 드러나게 작성한다.
+- 비즈니스 규칙, 예외 케이스, 도메인 지식이 들어가는 부분에는 반드시 주석/문서 작성.
+- public class, public method에는 DartDoc을 붙인다.
+
+## DartDoc 스타일
+
+- 한 줄 요약 + 필요시 파라미터/리턴 설명
+- 예:
+
+  /// 사용자를 이메일/비밀번호로 로그인시킨다.
+  ///
+  /// 실패 시 [AuthFailure]를 던진다.
+  class LoginUseCase { ... }
+
+## Controller(Notifier) 주석
+
+- Controller 클래스 상단에 "다루는 상태의 의미"와 "주요 액션"을 요약한다.
+- 복잡한 비즈니스 플로우(여러 API 호출, 분기)가 있는 메서드에는 단계별로 간단한 주석을 붙인다.
+
+## 파일 상단 주석
+
+- 복잡한 파일(예: offline_queue.dart, drift_database.dart 등)은 파일 상단에 개요를 작성한다.
+- 간단한 widget/page에는 파일 상단 주석은 생략 가능하나, 클래스 DartDoc은 유지한다.

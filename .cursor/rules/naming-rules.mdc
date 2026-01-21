@@ -1,0 +1,73 @@
+---
+description: "네이밍 규칙 - 파일/클래스/메서드/Provider 네이밍 컨벤션"
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# 네이밍 규칙(파일/클래스/Provider)
+
+## 공통
+
+- Dart/Flutter 기본 컨벤션을 따르되, 다음을 강제한다:
+  - 파일: snake_case.dart
+  - 클래스: PascalCase
+  - 메서드/변수: lowerCamelCase
+  - Provider 변수: lowerCamelCase + Provider suffix 지양(코드젠이 붙여줌)
+
+## feature/domain
+
+- Entity: <Name>Entity
+  - 예: UserEntity, ProfileEntity
+- Value Object: <Name>Value, <Name>Id 등
+  - 예: UserId, EmailValue
+- Repository Interface: <Name>Repository
+  - 예: AuthRepository, ProfileRepository
+- UseCase: 동사형 + UseCase
+  - 예: LoginUseCase, UpdateProfileUseCase, FetchFeedUseCase
+
+파일명 예:
+- entities/user_entity.dart
+- repositories/auth_repository.dart
+- usecases/login_use_case.dart
+
+## feature/data
+
+- DTO/Model: <Name>Model 또는 <Name>Dto (일관되게 하나 선택)
+  - 예: UserModel, ProfileModel
+- Remote datasource: <Name>RemoteDataSource
+- Local datasource: <Name>LocalDataSource
+- Repository 구현: <Name>RepositoryImpl
+  - 예: AuthRepositoryImpl, ProfileRepositoryImpl
+
+파일명 예:
+- models/user_model.dart
+- datasources/auth_remote_data_source.dart
+- datasources/auth_local_data_source.dart
+- repositories/auth_repository_impl.dart
+
+## feature/presentation
+
+- Page(전체 화면): <Name>Page
+  - 예: LoginPage, ProfileEditPage
+- Widget(서브 위젯): <Name>Widget 또는 의미 있는 이름
+  - 예: UserAvatar, ProfileForm
+- Riverpod Notifier/AsyncNotifier(Controller 역할):
+  - <Name>Controller: AsyncNotifier/Notifier 클래스 이름
+  - Provider는 codegen에 맡김(@riverpod 사용)
+  - 예: LoginController, ProfileController
+
+파일명 예:
+- pages/login_page.dart
+- controllers/login_controller.dart
+- providers/login_providers.dart (여러 provider를 묶어 놓을 경우)
+- widgets/profile_form.dart
+
+## Provider 네이밍(@riverpod)
+
+- AsyncNotifier 기반:
+  - 클래스: <Name>Controller extends _$<Name>Controller
+  - 메서드: build, fetch~, update~, submit~ 등 의미 있는 동사
+  - Provider 이름은 자동 생성된 것을 사용
+- Stateless provider:
+  - 함수명: <name>Provider (소문자 시작)
+  - 예: authSessionProvider, currentUserProvider

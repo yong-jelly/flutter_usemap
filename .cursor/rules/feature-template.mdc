@@ -1,0 +1,42 @@
+---
+description: "feature 생성 규칙 - 새로운 기능 추가 시 구조 템플릿"
+globs: ["lib/features/**/*.dart"]
+alwaysApply: true
+---
+
+# feature 생성 규칙(논리)
+
+## feature 생성 원칙
+
+- feature 하나는 "하나의 명확한 사용자 가치/플로우"를 담당한다.
+  - 예: onboarding, auth, profile, feed, search, settings 등
+- 각 feature는 domain/data/presentation 세 레이어를 모두 포함할 수 있다.
+
+## feature 생성 시 생성해야 할 것
+
+- domain
+  - entities/*
+  - value_objects/* (필요 시)
+  - repositories/<feature>_repository.dart
+  - usecases/<action>_use_case.dart
+- data
+  - models/<entity>_model.dart
+  - datasources/<feature>_remote_data_source.dart
+  - datasources/<feature>_local_data_source.dart (필요시)
+  - repositories/<feature>_repository_impl.dart
+- presentation
+  - pages/<feature>_page.dart (또는 <action>_page.dart)
+  - controllers/<feature>_controller.dart (AsyncNotifier)
+  - providers/<feature>_providers.dart (필요 시 분리)
+  - widgets/ (폼, 리스트, 카드 등 UI 구성요소)
+
+## feature 입력/출력 규칙
+
+- Domain 레이어:
+  - 외부 패키지(dio, Supabase, geolocator 등)에 의존하지 않는다.
+  - 순수 Dart 타입과 Entity/Value Object만 사용.
+- Data 레이어:
+  - dto/model ↔ entity 변환 메서드 제공 (fromModel/fromEntity 등)
+- Presentation 레이어:
+  - Entity/Value Object를 주로 사용하며, DTO 직접 사용 금지.
+  - 비즈니스 로직은 Controller/UseCase에만 두고 Widget은 표현/이벤트 위임에 집중.
