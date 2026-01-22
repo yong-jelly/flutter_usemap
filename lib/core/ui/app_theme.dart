@@ -26,9 +26,43 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         elevation: 0,
       ),
-      navigationBarTheme: const NavigationBarThemeData(
+      navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.background,
-        indicatorColor: Color(0xFFEDEDED),
+        indicatorColor: Colors.transparent,
+        iconTheme: const MaterialStatePropertyAll(IconThemeData(color: Colors.black)),
+        labelTextStyle: MaterialStatePropertyAll(
+          TextStyle(color: Colors.black, fontSize: 12),
+        ),
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: Colors.black,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.black,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFFE5E5E5)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFFE5E5E5)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black),
+        ),
+        labelStyle: TextStyle(color: Colors.black54),
+      ),
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFFE5E5E5),
       ),
     );
   }

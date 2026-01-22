@@ -68,7 +68,7 @@ class _ProfileSavedPageState extends ConsumerState<ProfileSavedPage> {
             itemBuilder: (context, index) {
               if (index >= state.places.length) {
                 return state.isFetchingMore
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator(color: Colors.black))
                     : const SizedBox.shrink();
               }
               final place = state.places[index];
@@ -88,7 +88,7 @@ class _ProfileSavedPageState extends ConsumerState<ProfileSavedPage> {
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CircularProgressIndicator(color: Colors.black)),
         error: (e, s) => Center(
           child: Text('저장된 장소 로드 실패: $e'),
         ),

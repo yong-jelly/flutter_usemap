@@ -34,18 +34,22 @@ class LoginPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.map_rounded, size: 80, color: Colors.blue),
+              const Icon(Icons.map_rounded, size: 80, color: Colors.black),
               const SizedBox(height: 24),
               const Text(
                 '나만의 맛집 지도를\n만들어보세요!',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
               const SizedBox(height: 12),
               const Text(
                 '로그인하고 가고 싶은 장소를\n저장하고 관리해보세요.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: Colors.black54),
               ),
               const SizedBox(height: 48),
               if (authState.isLoading)
@@ -67,10 +71,11 @@ class LoginPage extends ConsumerWidget {
                     minimumSize: const Size(double.infinity, 56),
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
-                    side: const BorderSide(color: Colors.grey),
+                    side: const BorderSide(color: Color(0xFFE5E5E5)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28),
                     ),
+                    elevation: 0,
                   ),
                 ),
               if (authState.hasError) ...[

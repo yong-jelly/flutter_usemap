@@ -69,11 +69,7 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         // 메뉴 버튼
         IconButton(
-          icon: const Icon(
-            Icons.more_vert,
-            color: Colors.black87,
-            size: 26,
-          ),
+          icon: const Icon(Icons.more_vert, color: Colors.black87, size: 26),
           onPressed: onMenuTap,
         ),
       ],

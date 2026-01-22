@@ -32,36 +32,16 @@ class ProfileAvatar extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: hasStory
-              ? const LinearGradient(
-                  colors: [
-                    ProfileRetroStyle.highlight,
-                    ProfileRetroStyle.accent,
-                    ProfileRetroStyle.accentPink,
-                  ],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                )
-              : null,
-          border: !hasStory
-              ? Border.all(
-                  color: ProfileRetroStyle.border,
-                  width: ProfileRetroStyle.borderWidth,
-                )
-              : null,
-          boxShadow: ProfileRetroStyle.cardShadow,
+          border: Border.all(
+            color: ProfileRetroStyle.border,
+            width: ProfileRetroStyle.borderWidth,
+          ),
         ),
-        padding: EdgeInsets.all(hasStory ? 4 : 0),
+        padding: EdgeInsets.zero,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: ProfileRetroStyle.surface,
-            border: hasStory
-                ? Border.all(
-                    color: ProfileRetroStyle.surface,
-                    width: 3,
-                  )
-                : null,
           ),
           clipBehavior: Clip.antiAlias,
           child: _buildImage(),

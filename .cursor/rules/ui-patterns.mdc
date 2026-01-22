@@ -12,6 +12,38 @@ alwaysApply: true
 - Stateless 위젯을 우선하고, 상태가 필요한 경우 Riverpod Provider를 사용한다.
 - const 생성자를 적극 활용한다.
 
+## 플랫폼 적응형 UI (최우선)
+
+- **모든 UI 컴포넌트는 adaptive_platform_ui 패키지를 최우선으로 사용한다.**
+- 기본 Flutter 위젯(Scaffold, AppBar, Button, TextField 등) 대신 adaptive_platform_ui의 Adaptive 위젯을 사용한다.
+- 예시:
+  ```dart
+  // ❌ 나쁜 예
+  Scaffold(
+    appBar: AppBar(...),
+    body: ...,
+  )
+  
+  // ✅ 좋은 예
+  AdaptiveScaffold(
+    appBar: AdaptiveAppBar(...),
+    body: ...,
+  )
+  
+  // ❌ 나쁜 예
+  ElevatedButton(...)
+  TextField(...)
+  
+  // ✅ 좋은 예
+  AdaptiveButton(...)
+  AdaptiveTextField(...)
+  ```
+- 플랫폼별 자동 적응:
+  - iOS 26+: 네이티브 UIKit 컴포넌트 (Liquid Glass 효과 포함)
+  - iOS 18 이하: Cupertino 위젯
+  - Android: Material Design 위젯
+- 예외: adaptive_platform_ui에서 제공하지 않는 특수한 커스텀 UI만 직접 구현한다.
+
 ## 위젯 파일 구조
 
 - Export 위젯(public API) → 하위 위젯 → 헬퍼 함수 → 정적 콘텐츠 → 타입 정의 순서로 배치

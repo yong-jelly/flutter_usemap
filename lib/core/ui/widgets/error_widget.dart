@@ -24,7 +24,7 @@ class ErrorDisplayWidget extends StatelessWidget {
             const Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.red,
+              color: Colors.black54,
             ),
             const SizedBox(height: 16),
             Text(
@@ -41,6 +41,11 @@ class ErrorDisplayWidget extends StatelessWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: onRetry,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                ),
                 child: const Text('다시 시도'),
               ),
             ],

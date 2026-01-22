@@ -120,7 +120,7 @@ final uploadProfileImageUseCaseProvider =
 typedef UploadProfileImageUseCaseRef =
     AutoDisposeProviderRef<UploadProfileImageUseCase>;
 String _$getMyBookmarkedPlacesUseCaseHash() =>
-    r'8c2b1f87d1c8f6e4a27f7b4b8d0b1af8d4d0b3a1';
+    r'6e762038d18a22a06c758cae2dd8ae591c602987';
 
 /// See also [getMyBookmarkedPlacesUseCase].
 @ProviderFor(getMyBookmarkedPlacesUseCase)

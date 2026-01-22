@@ -17,5 +17,5 @@ class AppColors {
   
   // Background
   static const background = Colors.white;
-  static const surface = Color(0xFFF7F7F7);
+  static const surface = Colors.white;
 }

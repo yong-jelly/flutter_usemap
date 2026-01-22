@@ -5,7 +5,7 @@ import '../controllers/onboarding_controller.dart';
 import '../../../../router/app_router.dart';
 
 /// 온보딩 화면
-/// 
+///
 /// 앱 첫 실행 시 표시되는 화면으로, "시작하기" 버튼을 제공한다.
 class OnboardingPage extends ConsumerWidget {
   const OnboardingPage({super.key});
@@ -23,11 +23,7 @@ class OnboardingPage extends ConsumerWidget {
             data: (onboardingState) => Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.rocket_launch,
-                  size: 120,
-                  color: Colors.blue,
-                ),
+                const Icon(Icons.rocket_launch, size: 120, color: Colors.black),
                 const SizedBox(height: 32),
                 Text(
                   '환영합니다!',
@@ -49,7 +45,9 @@ class OnboardingPage extends ConsumerWidget {
                         : () async {
                             await controller.completeOnboarding();
                             if (context.mounted) {
-                              final newState = ref.read(onboardingControllerProvider);
+                              final newState = ref.read(
+                                onboardingControllerProvider,
+                              );
                               newState.whenData((value) {
                                 if (value.isCompleted && context.mounted) {
                                   context.go(AppRoutes.main);
@@ -59,6 +57,9 @@ class OnboardingPage extends ConsumerWidget {
                           },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
                     ),
                     child: onboardingState.isLoading
                         ? const SizedBox(
@@ -66,18 +67,13 @@ class OnboardingPage extends ConsumerWidget {
                             width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text(
-                            '시작하기',
-                            style: TextStyle(fontSize: 16),
-                          ),
+                        : const Text('시작하기', style: TextStyle(fontSize: 16)),
                   ),
                 ),
               ],
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => Center(
-              child: Text('오류: $error'),
-            ),
+            error: (error, stackTrace) => Center(child: Text('오류: $error')),
           ),
         ),
       ),

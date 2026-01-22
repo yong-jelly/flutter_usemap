@@ -82,7 +82,7 @@ class _ProfileEditFormState extends ConsumerState<ProfileEditForm> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: const BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.black,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
@@ -95,8 +95,11 @@ class _ProfileEditFormState extends ConsumerState<ProfileEditForm> {
           const SizedBox(height: 16),
           TextButton.icon(
             onPressed: _handleRandomAvatar,
-            icon: const Icon(Icons.refresh),
-            label: const Text('랜덤 아바타'),
+            icon: const Icon(Icons.refresh, color: Colors.black54),
+            label: const Text(
+              '랜덤 아바타',
+              style: TextStyle(color: Colors.black54),
+            ),
           ),
           const SizedBox(height: 32),
           // 닉네임 입력
@@ -126,6 +129,11 @@ class _ProfileEditFormState extends ConsumerState<ProfileEditForm> {
             height: 56,
             child: ElevatedButton(
               onPressed: editState.isLoading ? null : _handleSubmit,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                elevation: 0,
+              ),
               child: editState.isLoading
                   ? const CircularProgressIndicator(color: Colors.white)
                   : const Text('저장하기', style: TextStyle(fontSize: 18)),
@@ -181,9 +189,9 @@ class _AvatarPreview extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.white,
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey[300]!, width: 2),
+        border: Border.all(color: const Color(0xFFE5E5E5), width: 1),
       ),
       clipBehavior: Clip.antiAlias,
       child: imageWidget,

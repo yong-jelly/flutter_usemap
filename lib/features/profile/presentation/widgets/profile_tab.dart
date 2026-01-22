@@ -38,8 +38,8 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
         }
         return _buildProfileContent(context, ref);
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, s) => Center(child: Text('상태 로드 실패: $e')),
+      loading: () => const Center(child: CircularProgressIndicator(color: Colors.black)),
+      error: (e, s) => Center(child: Text('상태 로드 실패: $e', style: TextStyle(color: Colors.black54))),
     );
   }
 
@@ -49,19 +49,29 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.account_circle, size: 80, color: Colors.grey),
+          const Icon(Icons.account_circle, size: 80, color: Colors.black54),
           const SizedBox(height: 16),
           const Text(
             '로그인이 필요합니다',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(height: 8),
-          const Text('나만의 맛집 지도를 관리해보세요'),
+          const Text(
+            '나만의 맛집 지도를 관리해보세요',
+            style: TextStyle(color: Colors.black54),
+          ),
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () => context.push('/auth/login'),
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(200, 56),
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
@@ -105,23 +115,6 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 뉴트로 스트라이프 바
-                      Container(
-                        height: 6,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          gradient: const LinearGradient(
-                            colors: [
-                              ProfileRetroStyle.accentPink,
-                              ProfileRetroStyle.accentOrange,
-                              ProfileRetroStyle.accentYellow,
-                              ProfileRetroStyle.accent,
-                              ProfileRetroStyle.accentMint,
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
                       // 프로필 헤더 섹션 (아바타 + 통계)
                       Row(
                         children: [
@@ -185,8 +178,8 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, s) => Center(child: Text('프로필 로드 실패: $e')),
+      loading: () => const Center(child: CircularProgressIndicator(color: Colors.black)),
+      error: (e, s) => Center(child: Text('프로필 로드 실패: $e', style: TextStyle(color: Colors.black54))),
     );
   }
 
@@ -218,25 +211,6 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
         ],
       ),
       centerTitle: false,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(12),
-        child: Container(
-          height: 12,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                ProfileRetroStyle.accentPink,
-                ProfileRetroStyle.accentOrange,
-                ProfileRetroStyle.accentYellow,
-                ProfileRetroStyle.accent,
-                ProfileRetroStyle.accentMint,
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-          ),
-        ),
-      ),
       actions: [
         IconButton(
           icon: const Icon(
@@ -287,11 +261,11 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
       },
       loading: () => const Padding(
         padding: EdgeInsets.symmetric(vertical: 40),
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(child: CircularProgressIndicator(color: Colors.black)),
       ),
       error: (e, s) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 40),
-        child: Center(child: Text('저장된 장소 로드 실패: $e')),
+        child: Center(child: Text('저장된 장소 로드 실패: $e', style: TextStyle(color: Colors.black54))),
       ),
     );
   }
@@ -369,8 +343,8 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
             ),
             const Divider(color: ProfileRetroStyle.border),
             ListTile(
-              leading: const Icon(Icons.logout, color: Color(0xFFB33939)),
-              title: const Text('로그아웃', style: TextStyle(color: Color(0xFFB33939))),
+              leading: const Icon(Icons.logout, color: Colors.black54),
+              title: const Text('로그아웃', style: TextStyle(color: Colors.black54)),
               onTap: () {
                 Navigator.pop(context);
                 ref.read(authControllerProvider.notifier).signOut();

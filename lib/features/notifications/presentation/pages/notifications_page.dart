@@ -12,7 +12,11 @@ class NotificationsPage extends StatelessWidget {
       child: Center(
         child: Text(
           '알림',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
       ),
     );
